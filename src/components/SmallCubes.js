@@ -14,9 +14,9 @@ function SmallCube({ position, geometry }) {
             {/* APPLIES THE CORRECT COLOUR TO EACH FACE, INSIDE IS BLACK */}
             {[...Array(6).keys()].map((i) => (
                 <meshStandardMaterial
-                    key = {i}
-                    attach = {`material-${i}`}
-                    color = {position[colours[i][0]] === colours[i][1] ? colours[i][2] : 'black'}
+                    key={i}
+                    attach={`material-${i}`}
+                    color={position[colours[i][0]] === colours[i][1] ? colours[i][2] : '#2F3136'}
                 />
             ))}
         </mesh>
