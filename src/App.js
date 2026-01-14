@@ -7,7 +7,9 @@ import { Canvas, useThree, useFrame, extend } from "@react-three/fiber";
 // FILES
 import CubeControls from "./components/Buttons";
 import BigCube from "./components/BigCube";
+import { ColourPanel } from "./components/ColourPanel";
 
+// MOVEMENT CONTROLS
 extend({ TrackballControls });
 
 function Controls() {
@@ -17,6 +19,7 @@ function Controls() {
   return <trackballControls ref={controls} args={[camera, gl.domElement]} minDistance={3} maxDistance={50} rotateSpeed={3} /> // PREVENTS ZOOMING TOO CLOSE/FAR
 }
 
+// DISPLAY
 function App() {
 
   return (
@@ -37,10 +40,10 @@ function App() {
         oneLineLabels
       />
       <CubeControls />
-
+      <ColourPanel />
       <div style={{ flexGrow: 1, display: "flex", justifyContent: "center", alignItems: "center" }}>
         <Canvas 
-          style={{ width: '100%', height: '100%', background: "#373a42" }}
+          style={{ width: '100%', height: '100%' }}
           camera={{ position: [7, 7, 7], fov: 60, near: 0.01, far: 100 }}
         >
           <ambientLight intensity={0.8} />

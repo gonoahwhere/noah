@@ -1,14 +1,18 @@
 // IMPORTS
-import { useControls } from "leva";
+import { create } from "zustand";
 
 // CUBE COLOURS
-export function useColours() {
-  return useControls('Colours 🎨', {
-    RIGHT: { value: '#FF6400' },      // ORANGE
-    LEFT: { value: '#FF0000' },       // RED
-    TOP: { value: '#FFFFFF' },        // WHITE
-    DOWN: { value: '#FFFF00' },       // YELLOW
-    FRONT: { value: '#00BB00' },      // GREEN
-    BACK: { value: '#0000BB' },       // BLUE
-  })
-};
+export const useColoursList = create((set) => ({
+    colours: {
+        RIGHT: "#FF6400",
+        LEFT: "#FF0000",
+        TOP: "#FFFFFF",
+        DOWN: "#FFFF00",
+        FRONT: "#00BB00",
+        BACK: "#0000BB",
+    },
+
+    setColour: (face, value) => set((state) => ({
+        colours: { ...state.colours, [face]: value }
+    })),
+}));

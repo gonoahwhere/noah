@@ -3,23 +3,29 @@ import { useControls, button } from 'leva'
 
 // LEVA CONTROL MENU
 function CubeControls() {
+  useControls('Options ⚙️', {
+    'SHUFFLE': button(() => {}),
+    'SOLVE': button(() => {}),
+  })
+
   useControls('Clockwise ↻', {
-    'RIGHT': button(() => {}),
     'LEFT': button(() => {}),
+    'RIGHT': button(() => {}),
+    'BACK': button(() => {}),
+    'FRONT': button(() => {}),
     'TOP': button(() => {}),
     'DOWN': button(() => {}),
-    'FRONT': button(() => {}),
-    'BACK': button(() => {}),
   });
 
   useControls('Counter Clockwise ↺', {
-    'RIGHT': button(() => {}),
     'LEFT': button(() => {}),
+    'RIGHT': button(() => {}),
+    'BACK': button(() => {}),
+    'FRONT': button(() => {}),
     'TOP': button(() => {}),
     'DOWN': button(() => {}),
-    'FRONT': button(() => {}),
-    'BACK': button(() => {}),
   });
+  
 
   return null
 }

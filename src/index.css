@@ -91,7 +91,7 @@ h1 {
 
 [class^="leva-c"] button {
   color: #CCC !important;
-  background-color: #373a42 !important;
+  background-color: #1E1E1E !important;
 }
 
 [class*="leva-c-"][class$="isRoot-true"] > [class*="leva-c-PJLV"] {

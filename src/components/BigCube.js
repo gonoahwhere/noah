@@ -9,7 +9,7 @@ import { RoundedBoxGeometry } from "three/examples/jsm/Addons.js";
 // FILES
 import CubeControls from "./Buttons";
 import SmallCube from "./SmallCubes";
-import { useColours } from "../utils/Colours";
+import { useColoursList } from "../utils/Colours";
 
 // JOINS ALL 27 SMALL CUBES INTO A 3X3 CUBE
 function BigCube() {
@@ -19,8 +19,8 @@ function BigCube() {
     // CUBE SIZE + OFFSET CENTRE
     const N = 3
     const offset = (N - 1) / 2;
-    const colours = useColours()
-
+    const colours = useColoursList((s) => s.colours)
+    
     // ROUNDS THE SMALL CUBES TO GIVE CLEAN EDGES
     const roundedBoxGeometry = useMemo(() => new RoundedBoxGeometry(1, 1, 1, 3, 0.1), []);
 
