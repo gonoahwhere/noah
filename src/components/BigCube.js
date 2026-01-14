@@ -7,8 +7,9 @@ import JEASINGS from "jeasings";
 import { RoundedBoxGeometry } from "three/examples/jsm/Addons.js";
 
 // FILES
-import Buttons from "./Buttons";
+import CubeControls from "./Buttons";
 import SmallCube from "./SmallCubes";
+import { useColours } from "../utils/Colours";
 
 // JOINS ALL 27 SMALL CUBES INTO A 3X3 CUBE
 function BigCube() {
@@ -18,6 +19,7 @@ function BigCube() {
     // CUBE SIZE + OFFSET CENTRE
     const N = 3
     const offset = (N - 1) / 2;
+    const colours = useColours()
 
     // ROUNDS THE SMALL CUBES TO GIVE CLEAN EDGES
     const roundedBoxGeometry = useMemo(() => new RoundedBoxGeometry(1, 1, 1, 3, 0.1), []);
@@ -30,7 +32,7 @@ function BigCube() {
     // GENERATES THE BIG 3X3 CUBE
     return (
       <>
-        <group ref={ref} position={[0, 0, 0]} scale={[1.25, 1.25, 1.25]}>
+        <group ref={ref} position={[0, 0, 0]} scale={[1.5, 1.5, 1.5]}>
           {/* LOOPS OVER LEFT TO RIGHT */}
           {[...Array(N).keys()].map((x) =>
             // LOOPS OVER BOTTOM TO TOP
@@ -43,12 +45,15 @@ function BigCube() {
                   // POSITIONS CUBE IN THE CENTRE / ORIGIN
                   position={[x - offset, y - offset, z - offset]}
                   // USE ROUNDED EDGES
-                  geometry={roundedBoxGeometry} />
+                  geometry={roundedBoxGeometry}
+                  // USES COLOURS
+                  colours={colours} 
+                  />
               ))
             )
           )}
         </group>
-        <Buttons cubeGroup={ref} />
+        <CubeControls cubeGroup={ref} />
       </>
     )
 }

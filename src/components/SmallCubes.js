@@ -1,24 +1,27 @@
-const colours = [
-    [0, 1, '#FF6400'],         // ORANGE,   RIGHT
-    [0, -1, '#FF0000'],        // RED,      LEFT
-    [1, 1, '#FFFFFF'],         // WHITE,    TOP
-    [1, -1, '#FFFF00'],        // YELLOW,   BOTTOM
-    [2, 1, '#00BB00'],         // GREEN,    FRONT
-    [2, -1, '#0000BB'],        // BLUE,     BACK
-]
+// FILES
+import { FACES, INSIDE_COLOUR } from "../utils/Faces";
 
 // SMALL INDIVIDUAL CUBE
-function SmallCube({ position, geometry }) {
+function SmallCube({ position, geometry, colours }) {
     return (
         <mesh position={position} geometry={geometry}>
             {/* APPLIES THE CORRECT COLOUR TO EACH FACE, INSIDE IS BLACK */}
-            {[...Array(6).keys()].map((i) => (
+            {[...Array(6)].map((_, i) => {
+                const [axis, dir, face] = FACES[i]
+
+                const colour =
+                position[axis] === dir
+                    ? colours[face]
+                    : INSIDE_COLOUR
+
+                return (
                 <meshStandardMaterial
                     key={i}
                     attach={`material-${i}`}
-                    color={position[colours[i][0]] === colours[i][1] ? colours[i][2] : '#2F3136'}
+                    color={colour}
                 />
-            ))}
+                )
+            })}
         </mesh>
     )
 }

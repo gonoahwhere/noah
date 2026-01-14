@@ -4,21 +4,21 @@ import { useControls, button } from 'leva'
 // LEVA CONTROL MENU
 function CubeControls() {
   useControls('Clockwise ↻', {
-    'LEFT': button(() => {}),
     'RIGHT': button(() => {}),
-    'BACK': button(() => {}),
-    'FRONT': button(() => {}),
+    'LEFT': button(() => {}),
     'TOP': button(() => {}),
     'DOWN': button(() => {}),
+    'FRONT': button(() => {}),
+    'BACK': button(() => {}),
   });
 
   useControls('Counter Clockwise ↺', {
-    'LEFT': button(() => {}),
     'RIGHT': button(() => {}),
-    'BACK': button(() => {}),
-    'FRONT': button(() => {}),
+    'LEFT': button(() => {}),
     'TOP': button(() => {}),
     'DOWN': button(() => {}),
+    'FRONT': button(() => {}),
+    'BACK': button(() => {}),
   });
 
   return null

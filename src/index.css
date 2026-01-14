@@ -18,6 +18,10 @@ code {
     monospace;
 }
 
+h1 {
+  font-size: 3em !important;
+}
+
 /* CHANGES RIBBON UI */
 .cube-ribbon {
   background-attachment: scroll;
@@ -91,5 +95,10 @@ code {
 }
 
 [class*="leva-c-"][class$="isRoot-true"] > [class*="leva-c-PJLV"] {
+  margin-top: 0 !important;
+}
+
+[class*="leva-c-jzsQCy"] {
+  padding-bottom: 10px !important;
   margin-top: 0 !important;
 }
