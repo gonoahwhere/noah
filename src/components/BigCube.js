@@ -15,6 +15,10 @@ function BigCube() {
     // REFERENCE FOR LAYER ROTATIONS
     const ref = useRef();
 
+    // CUBE SIZE + OFFSET CENTRE
+    const N = 3
+    const offset = (N - 1) / 2;
+
     // ROUNDS THE SMALL CUBES TO GIVE CLEAN EDGES
     const roundedBoxGeometry = useMemo(() => new RoundedBoxGeometry(1, 1, 1, 3, 0.1), []);
 
@@ -24,29 +28,29 @@ function BigCube() {
     })
 
     // GENERATES THE BIG 3X3 CUBE
-  return (
-    <>
-      <group ref={ref}>
-        {/* LOOPS OVER LEFT TO RIGHT */}
-        {[...Array(3).keys()].map((x) =>
-          // LOOPS OVER BOTTOM TO TOP
-          [...Array(3).keys()].map((y) =>
-            // LOOPS OVER BACK TO FRONT
-            [...Array(3).keys()].map((z) => (
-              <SmallCube 
-                // EACH CUBE GETS A UNIQUE ID
-                key={x + y * 3 + z * 9} 
-                // POSITIONS CUBE IN THE CENTRE / ORIGIN
-                position={[x - 1, y - 1, z - 1]}
-                // USE ROUNDED EDGES
-                geometry={roundedBoxGeometry} />
-            ))
-          )
-        )}
-      </group>
-      <Buttons cubeGroup={ref} />
-    </>
-  )
+    return (
+      <>
+        <group ref={ref} position={[0, 0, 0]} scale={[1.25, 1.25, 1.25]}>
+          {/* LOOPS OVER LEFT TO RIGHT */}
+          {[...Array(N).keys()].map((x) =>
+            // LOOPS OVER BOTTOM TO TOP
+            [...Array(N).keys()].map((y) =>
+              // LOOPS OVER BACK TO FRONT
+              [...Array(N).keys()].map((z) => (
+                <SmallCube 
+                  // EACH CUBE GETS A UNIQUE ID
+                  key={x + y * N + z * N * N}
+                  // POSITIONS CUBE IN THE CENTRE / ORIGIN
+                  position={[x - offset, y - offset, z - offset]}
+                  // USE ROUNDED EDGES
+                  geometry={roundedBoxGeometry} />
+              ))
+            )
+          )}
+        </group>
+        <Buttons cubeGroup={ref} />
+      </>
+    )
 }
 
 export default BigCube;

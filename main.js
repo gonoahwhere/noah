@@ -12,8 +12,12 @@ function createWindow() {
     webPreferences: {
       nodeIntegration: true,
     },
+    frame: true,
+    fullscreenable: true,
   });
 
+  win.maximize();
+  
   win.loadFile(path.join(__dirname, "build", "index.html"));
   win.on("page-title-updated", (event) => {
     event.preventDefault(); 
