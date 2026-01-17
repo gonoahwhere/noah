@@ -7,7 +7,7 @@ const faceIcons = {
     RIGHT: '🟧',
     LEFT: '🟥',
     TOP: '⬜',
-    DOWN: '🟨',
+    BOTTOM: '🟨',
     FRONT: '🟩',
     BACK: '🟦'
 }
@@ -48,12 +48,23 @@ export function ColourPanel() {
             type="text"
             value={inputs[face]}
             onChange={(e) => {
-              const hex = e.target.value;
-              setInputs(prev => ({ ...prev, [face]: hex }));
+              let value = e.target.value.toUpperCase();
+
+              // PREVENTS INVALID HEX COLOURS BEING ENTERED
+              value = value.replace(/[^0-9A-F#]/g, "");
+
+              // AUTOMATICALLY ADDS # IF ITS MISSING
+              if (!value.startsWith("#")) {
+                value = "#" + value;
+              }
+
+              // LIMITS LENGTH TO 7 CHARACTERS
+              value = value.slice(0, 7);
+              setInputs(prev => ({ ...prev, [face]: value }));
 
               // ONLY SETS IF VALID
-              if (/^#[0-9A-Fa-f]{6}$/.test(hex)) {
-                setColour(face, hex)
+              if (/^#[0-9A-Fa-f]{6}$/.test(value)) {
+                setColour(face, value)
               }
             }}
             style={{ border: 'none', background: 'none', color: "#ccc", fontFamily: 'Rubik', width: 90 }}

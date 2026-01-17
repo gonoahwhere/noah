@@ -20,7 +20,7 @@ function BigCube() {
     const N = 3
     const offset = (N - 1) / 2;
     const colours = useColoursList((s) => s.colours)
-    
+
     // ROUNDS THE SMALL CUBES TO GIVE CLEAN EDGES
     const roundedBoxGeometry = useMemo(() => new RoundedBoxGeometry(1, 1, 1, 3, 0.1), []);
 

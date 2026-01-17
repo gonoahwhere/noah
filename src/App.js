@@ -39,7 +39,6 @@ function App() {
         fill={false}
         oneLineLabels
       />
-      <CubeControls />
       <ColourPanel />
       <div style={{ flexGrow: 1, display: "flex", justifyContent: "center", alignItems: "center" }}>
         <Canvas 
