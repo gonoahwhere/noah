@@ -1,5 +1,6 @@
 // IMPORTS
 import JEASINGS, { JEasing } from "jeasings"
+import * as THREE from 'three'
 
 // RESET ROTATION GROUP FOR THE INDIVIDUAL CUBES
 export function resetRotationGroup(cubeGroup, rotationGroup) {
@@ -8,23 +9,83 @@ export function resetRotationGroup(cubeGroup, rotationGroup) {
         .slice() // COPIES CUBES ARRAY, HELPFUL SO WE DONT MESS UP ORIGINAL
         .reverse() // PREVENTS ORDER ISSUES WHEN REATTACHING INDIVIDUAL CUBES
         .forEach(cube => cubeGroup.attach(cube))
-
     // RESETS PIVOT ROTATION SO THE NEXT LAYER CAN BE ROTATED
     rotationGroup.quaternion.set(0, 0, 0, 1)
 }
 
 // ATTACHES THE INDIVIDUAL CUBES WITHIN A SPECIFIC LAYER FOR ROTATION
-export function attachLayerToRotation(cubeGroup, rotationGroup, axis, limit) {
+export function attachLayerToRotation(cubeGroup, rotationGroup, camera, face) {
+    // DETERMINES CAMERA DIRECTION
+    const cameraDirection = new THREE.Vector3()
+    camera.getWorldPosition(cameraDirection)
+    cameraDirection.sub(cubeGroup.position).normalize()
+    
+    // GET UP/RIGHT VECTORS BASED ON CAMERA ORIENTATION
+    const cameraUp = new THREE.Vector3(0, 1, 0).applyQuaternion(camera.quaternion)
+    const cameraRight = new THREE.Vector3(1, 0, 0).applyQuaternion(camera.quaternion)
+    
+    // DETERMINE WHICH FACE NEEDS TO ROTATE, BASED ON CAMERA ORIENTATION
+    let worldAxis, limit, rotationAxisVector
+    
+    switch(face) {
+        case 'TOP':
+            worldAxis = findDominantAxis(cameraUp)
+            limit = cameraUp[worldAxis] = 0.5
+            rotationAxisVector = cameraUp
+            break
+        case 'BOTTOM':
+            worldAxis = findDominantAxis(cameraUp)
+            limit = cameraUp[worldAxis] = -0.5
+            rotationAxisVector = cameraUp
+            break
+        case 'RIGHT':
+            worldAxis = findDominantAxis(cameraRight)
+            limit = cameraRight[worldAxis] = 0.5
+            rotationAxisVector = cameraRight
+            break
+        case 'LEFT':
+            worldAxis = findDominantAxis(cameraRight)
+            limit = cameraRight[worldAxis] = -0.5
+            rotationAxisVector = cameraRight
+            break
+        case 'FRONT':
+            worldAxis = findDominantAxis(cameraDirection)
+            limit = cameraDirection[worldAxis] = 0.5
+            rotationAxisVector = cameraDirection
+            break
+        case 'BACK':
+            worldAxis = findDominantAxis(cameraDirection)
+            limit = cameraDirection[worldAxis] = -0.5
+            rotationAxisVector = cameraDirection
+            break
+        default:
+            worldAxis = findDominantAxis(cameraDirection)
+            limit = cameraDirection[worldAxis] = 0.5
+            rotationAxisVector = cameraDirection
+            console.warn(`Invalid face "${face}" provided. Defaulting to FRONT.`)
+            break
+    }
+    
     // GOES THROUGH ALL INDIVIDUAL CUBES WITHIN THE MAIN CUBE
     cubeGroup.children
-        // COPIES CUBES ARRAY, HELPFUL SO WE DONT MESS UP ORIGINAL
         .slice() 
-        // PREVENTS ORDER ISSUES
         .reverse()
-        // ONLY PICKS INDIVIDUAL CUBES WITHIN CURRENTLY SELECTED LAYER
-        .filter(function (c) { return limit < 0 ? c.position[axis] < limit : c.position[axis] > limit })
-        // ATTACHES THE INDIVIDUAL CUBES WITHIN THE SELECTED LAYER FOR ROTATING
+        .filter(function (c) { return limit < 0 ? c.position[worldAxis] < limit : c.position[worldAxis] > limit })
         .forEach(function (c) { rotationGroup.attach(c) })
+    
+    // RETURNS THE AXIS
+    return worldAxis
+}
+
+// CALCULATES THE AXIS WITH THE LARGEST COMPONENT
+function findDominantAxis(vector) {
+    const absX = Math.abs(vector.x)
+    const absY = Math.abs(vector.y)
+    const absZ = Math.abs(vector.z)
+    
+    if (absY > absX && absY > absZ) return 'y'
+    if (absX > absZ) return 'x'
+    return 'z'
 }
 
 // HANDLES THE ROTATION ANIMATION
@@ -39,12 +100,12 @@ export function animateCubeRotation(rotationGroup, axis, multiplier) {
 }
 
 // HANDLES THE LAYER ROTATION
-export function rotateLayer(cubeGroup, rotationGroup, axis, limit, multiplier) {
+export function rotateLayer(cubeGroup, rotationGroup, camera, face, multiplier) {
     if (!JEASINGS.getLength()) {
         // RESETS ANY OF THE INDIVIDUAL CUBES ATTACHED TO PIVOT
         resetRotationGroup(cubeGroup, rotationGroup)
         // ATTACHES INDIVIDUAL CUBES TO PIVOT FOR THE SELECTED LAYER
-        attachLayerToRotation(cubeGroup, rotationGroup, axis, limit)
+        const axis = attachLayerToRotation(cubeGroup, rotationGroup, camera, face)
         // VISUALLY MOVES THE LAYER
         animateCubeRotation(rotationGroup, axis, multiplier)
     }

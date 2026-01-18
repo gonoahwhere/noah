@@ -1,22 +1,22 @@
 // IMPORTS
 import React from "react";
 import { Leva } from 'leva'
-import { TrackballControls } from "three-stdlib";
+import { OrbitControls } from '@react-three/drei'
 import { Canvas, useThree, useFrame, extend } from "@react-three/fiber";
 
 // FILES
-import CubeControls from "./components/Buttons";
 import BigCube from "./components/BigCube";
 import { ColourPanel } from "./components/ColourPanel";
 
 // MOVEMENT CONTROLS
-extend({ TrackballControls });
+extend({ OrbitControls });
 
 function Controls() {
   const { camera, gl } = useThree();
   const controls = React.useRef();
   useFrame(() => controls.current.update());
-  return <trackballControls ref={controls} args={[camera, gl.domElement]} minDistance={3} maxDistance={50} rotateSpeed={3} /> // PREVENTS ZOOMING TOO CLOSE/FAR
+  // PREVENTS ZOOMING TOO CLOSE/FAR
+  return <OrbitControls ref={controls} args={[camera, gl.domElement]} minDistance={3} maxDistance={50} rotateSpeed={2} enablePan={false} />
 }
 
 // DISPLAY
