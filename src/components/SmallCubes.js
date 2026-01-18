@@ -5,7 +5,7 @@ import { FACES, INSIDE_COLOUR } from "../utils/Faces";
 function SmallCube({ position, geometry, colours }) {
     return (
         <mesh position={position} geometry={geometry}>
-            {/* APPLIES THE CORRECT COLOUR TO EACH FACE, INSIDE IS BLACK */}
+            {/* APPLIES THE CORRECT COLOUR TO EACH FACE, INSIDE IS DARK GREY */}
             {[...Array(6)].map((_, i) => {
                 const [axis, dir, face] = FACES[i]
 
