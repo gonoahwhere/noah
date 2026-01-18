@@ -13,11 +13,8 @@ npm run electron-prod
 
 ---
 can remove the following
-./src/App.css
-./src/App.test.js
-./src/logo.svg
-./src/reportWebVitals.js
-./src/setupTest.js
-
-
-# this is just an assignment tracker
+- ./src/App.css
+- ./src/App.test.js
+- ./src/logo.svg
+- ./src/reportWebVitals.js
+- ./src/setupTest.js
