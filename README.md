@@ -18,6 +18,3 @@ can remove the following
 ./src/logo.svg
 ./src/reportWebVitals.js
 ./src/setupTest.js
-
-
-# this is just an assignment tracker
