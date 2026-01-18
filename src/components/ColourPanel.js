@@ -29,6 +29,7 @@ export function ColourPanel() {
         borderRadius: 12,
         background: '#1E1E1E',
         display: 'grid',
+        zIndex: 1000
       }}
     >
       {Object.entries(colours).map(([face, value]) => (

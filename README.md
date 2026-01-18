@@ -18,3 +18,17 @@ can remove the following
 - ./src/logo.svg
 - ./src/reportWebVitals.js
 - ./src/setupTest.js
+
+---
+# To Implement:
+- shuffle
+- solve
+- timer (speed run?)
+    - leaderboard?
+        - slowest time
+        - fastest time
+        - least amount of moves
+        - most amount of moves
+- cube sizes?
+- custom ui colours?
+- custom challenges?
