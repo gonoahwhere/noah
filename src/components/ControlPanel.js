@@ -22,6 +22,7 @@ export function ControlPanel({ onRotate }) {
                 gap: 12,
                 flexDirection: 'column',
                 width: 218,
+                paddingBottom: 20,
                 zIndex: 1000
             }}
         >
