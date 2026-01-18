@@ -1,5 +1,11 @@
+// IMPORTS
+import { useState } from "react";
+
 // CUBE CONTROLS (BUTTONS)
 export function ControlPanel({ onRotate }) {
+    const [noahAlertMsg, setNoahAlertMsg] = useState(null);
+    const [noahAlertClose, setNoahAlertClose] = useState(false);
+
     const handleRotate = (face, dir) => {
         if (onRotate) {
             onRotate(face, dir)
@@ -27,8 +33,8 @@ export function ControlPanel({ onRotate }) {
             }}>
                 <div style={{ marginBottom: 10, fontWeight: 'bold', textAlign: 'center' }}>Options ⚙️</div>
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
-                    <button className="button-rubik" onClick={() => {}}>SHUFFLE</button>
-                    <button className="button-rubik" onClick={() => {}}>SOLVE</button>
+                    <button className="button-rubik" onClick={() => setNoahAlertMsg("Noah hasn't implemented this feature yet!")}>SHUFFLE</button>
+                    <button className="button-rubik" onClick={() => setNoahAlertMsg("Noah hasn't implemented this feature yet!")}>SOLVE</button>
                 </div>
             </div>
 
@@ -85,6 +91,22 @@ export function ControlPanel({ onRotate }) {
                     </div>
                 </div>
             </div>
+
+            {/* Custom Alert Messages */}
+            {noahAlertMsg && (
+            <div className={`noah-alert ${noahAlertClose ? "fade-out" : "fade-in"}`}>
+                <div className="noah-alert-msg">{noahAlertMsg}</div>
+                <button 
+                    className="button-rubik" 
+                    onClick={() => { 
+                        setNoahAlertClose(true); 
+                        setTimeout(() => { 
+                            setNoahAlertMsg(null); 
+                            setNoahAlertClose(false);
+                        }, 200); }}
+                >OK</button>
+            </div>
+            )}
         </div>
     )
 }
