@@ -25,42 +25,49 @@ export function attachLayerToRotation(cubeGroup, rotationGroup, camera, face) {
     const cameraRight = new THREE.Vector3(1, 0, 0).applyQuaternion(camera.quaternion)
     
     // DETERMINE WHICH FACE NEEDS TO ROTATE, BASED ON CAMERA ORIENTATION
-    let worldAxis, limit, rotationAxisVector
+    let worldAxis, limit, rotationAxisVector, axisSign
     
     switch(face) {
         case 'TOP':
             worldAxis = findDominantAxis(cameraUp)
-            limit = cameraUp[worldAxis] = 0.5
+            axisSign = Math.sign(cameraUp[worldAxis])
+            limit = 0.5 * axisSign
             rotationAxisVector = cameraUp
             break
         case 'BOTTOM':
             worldAxis = findDominantAxis(cameraUp)
-            limit = cameraUp[worldAxis] = -0.5
+            axisSign = Math.sign(cameraUp[worldAxis])
+            limit = -0.5 * axisSign
             rotationAxisVector = cameraUp
             break
         case 'RIGHT':
             worldAxis = findDominantAxis(cameraRight)
-            limit = cameraRight[worldAxis] = 0.5
+            axisSign = Math.sign(cameraRight[worldAxis])
+            limit = 0.5 * axisSign
             rotationAxisVector = cameraRight
             break
         case 'LEFT':
             worldAxis = findDominantAxis(cameraRight)
-            limit = cameraRight[worldAxis] = -0.5
+            axisSign = Math.sign(cameraRight[worldAxis])
+            limit = -0.5 * axisSign
             rotationAxisVector = cameraRight
             break
         case 'FRONT':
             worldAxis = findDominantAxis(cameraDirection)
-            limit = cameraDirection[worldAxis] = 0.5
+            axisSign = Math.sign(cameraDirection[worldAxis])
+            limit = 0.5 * axisSign
             rotationAxisVector = cameraDirection
             break
         case 'BACK':
             worldAxis = findDominantAxis(cameraDirection)
-            limit = cameraDirection[worldAxis] = -0.5
+            axisSign = Math.sign(cameraDirection[worldAxis])
+            limit = -0.5 * axisSign
             rotationAxisVector = cameraDirection
             break
         default:
             worldAxis = findDominantAxis(cameraDirection)
-            limit = cameraDirection[worldAxis] = 0.5
+            axisSign = Math.sign(cameraDirection[worldAxis])
+            limit = 0.5 * axisSign
             rotationAxisVector = cameraDirection
             console.warn(`Invalid face "${face}" provided. Defaulting to FRONT.`)
             break
@@ -73,8 +80,8 @@ export function attachLayerToRotation(cubeGroup, rotationGroup, camera, face) {
         .filter(function (c) { return limit < 0 ? c.position[worldAxis] < limit : c.position[worldAxis] > limit })
         .forEach(function (c) { rotationGroup.attach(c) })
     
-    // RETURNS THE AXIS
-    return worldAxis
+    // RETURNS THE AXIS AND DIRECTION SIGN
+    return { axis: worldAxis, sign: axisSign }
 }
 
 // CALCULATES THE AXIS WITH THE LARGEST COMPONENT
@@ -100,13 +107,14 @@ export function animateCubeRotation(rotationGroup, axis, multiplier) {
 }
 
 // HANDLES THE LAYER ROTATION
-export function rotateLayer(cubeGroup, rotationGroup, camera, face, multiplier) {
+export function rotateLayer(cubeGroup, rotationGroup, camera, face, multiplier) {    
     if (!JEASINGS.getLength()) {
         // RESETS ANY OF THE INDIVIDUAL CUBES ATTACHED TO PIVOT
         resetRotationGroup(cubeGroup, rotationGroup)
         // ATTACHES INDIVIDUAL CUBES TO PIVOT FOR THE SELECTED LAYER
-        const axis = attachLayerToRotation(cubeGroup, rotationGroup, camera, face)
-        // VISUALLY MOVES THE LAYER
-        animateCubeRotation(rotationGroup, axis, multiplier)
+        const result = attachLayerToRotation(cubeGroup, rotationGroup, camera, face)
+        const { axis, sign } = result;
+        // VISUALLY MOVES THE LAYER (adjust multiplier by axis direction)
+        animateCubeRotation(rotationGroup, axis, multiplier * sign)
     }
 }

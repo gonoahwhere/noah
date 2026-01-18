@@ -1,18 +1,18 @@
 // IMPORTS
 import { useFrame } from "@react-three/fiber"
-import { useMemo, useRef } from "react";
+import { useMemo, useRef, useEffect } from "react";
 import JEASINGS from "jeasings";
 
 // NODE MODULES
 import { RoundedBoxGeometry } from "three/examples/jsm/Addons.js";
 
 // FILES
-import CubeControls from "./Buttons";
+import CubeControls from "./KeyHandlers";
 import SmallCube from "./SmallCubes";
 import { useColoursList } from "../utils/Colours";
 
 // JOINS ALL 27 SMALL CUBES INTO A 3X3 CUBE
-function BigCube() {
+function BigCube({ rotationCommand }) {
     // REFERENCE FOR LAYER ROTATIONS
     const ref = useRef();
 
@@ -23,6 +23,13 @@ function BigCube() {
 
     // ROUNDS THE SMALL CUBES TO GIVE CLEAN EDGES
     const roundedBoxGeometry = useMemo(() => new RoundedBoxGeometry(1, 1, 1, 3, 0.1), []);
+
+    // LISTENS FOR ROTATION FROM BUTTON PANELS
+    useEffect(() => {
+        if (rotationCommand && ref.current) {
+            return
+        }
+    }, [rotationCommand])
 
     // ALLOWS FOR SMOOTH ANIMATIONS ON EACH FRAME
     useFrame(() => {
@@ -53,7 +60,7 @@ function BigCube() {
             )
           )}
         </group>
-        <CubeControls cubeGroup={ref} />
+        <CubeControls cubeGroup={ref} rotationCommand={rotationCommand} />
       </>
     )
 }

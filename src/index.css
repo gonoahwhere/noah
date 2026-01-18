@@ -48,7 +48,6 @@ label {
   box-shadow: 0 4px 8px rgba(90, 93, 104, 0.4);
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
   font-weight: bold;
-  font-size: 1.1rem;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
 }
