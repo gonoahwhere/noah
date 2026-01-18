@@ -131,21 +131,54 @@ label {
   box-sizing: content-box;
 }
 
-/* CHANGES LEVA UI */
-[class^="leva-c"] {
-  font-family: 'Sniglet', cursive;
+/* CUSTOM ALERT MSGS */
+.noah-alert {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 16px;
+  min-width: 260px;
+  border-radius: 12px;
+  background: #1E1E1E;
+  border: 1px solid #3E3E3E;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+  z-index: 9999;
 }
 
-[class^="leva-c"] button {
-  color: #CCC !important;
-  background-color: #1E1E1E !important;
+.noah-alert-msg {
+  margin-bottom: 12px;
 }
 
-[class*="leva-c-"][class$="isRoot-true"] > [class*="leva-c-PJLV"] {
-  margin-top: 0 !important;
+.fade-in {
+  animation: alertFadeIn 0.2s ease-out forwards;
 }
 
-[class*="leva-c-jzsQCy"] {
-  padding-bottom: 10px !important;
-  margin-top: 0 !important;
+.fade-out {
+  animation: alertFadeOut 0.2s ease-in forwards;
+}
+
+@keyframes alertFadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.96);
+  }
+  
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes alertFadeOut {
+  from {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.96);
+  }
 }
