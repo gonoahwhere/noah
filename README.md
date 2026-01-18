@@ -1,4 +1,4 @@
-# ![gonoahwhere](https://raw.githubusercontent.com/gonoahwhere/gonoahwhere/main/assets/images/gnw_ban7.png)
+# ![gonoahwhere](https://raw.githubusercontent.com/gonoahwhere/gonoahwhere/main/assets/images/rubiks_ban.png)
 
 npx create-react-app my-app
 cd my-app
