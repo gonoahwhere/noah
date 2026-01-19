@@ -31,7 +31,8 @@ function App() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', width: '100vw' }}>
       <div style={{ textAlign: 'center', padding: '1rem' }}>
-        <h1>RUBIKS CUBE</h1>
+        <h1 className="page-title">RUBIKS CUBE</h1>
+        <h3 className="page-subtitle">MADE BY A SILLY LITTLE CREATOR</h3>
       </div>
 
       <ColourPanel />
