@@ -1,8 +1,13 @@
 // IMPORTS
 import { useState } from "react";
 
+// FILES
+import { useSound } from "../SoundContext"
+
 // CUBE CONTROLS (BUTTONS)
 export function ControlPanel({ onRotate }) {
+    const { play } = useSound()
+
     const [noahAlertMsg, setNoahAlertMsg] = useState(null);
     const [noahAlertClose, setNoahAlertClose] = useState(false);
 
@@ -34,8 +39,8 @@ export function ControlPanel({ onRotate }) {
             }}>
                 <div style={{ marginBottom: 10, fontWeight: 'bold', textAlign: 'center' }}>Options ⚙️</div>
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
-                    <button className="button-rubik" onClick={() => setNoahAlertMsg("Noah hasn't implemented this feature yet!")}>SHUFFLE</button>
-                    <button className="button-rubik" onClick={() => setNoahAlertMsg("Noah hasn't implemented this feature yet!")}>SOLVE</button>
+                    <button className="button-rubik" onClick={() => { play("ohno"); setNoahAlertMsg("Noah hasn't implemented this feature yet!") }}>SHUFFLE</button>
+                    <button className="button-rubik" onClick={() => { play("ohno"); setNoahAlertMsg("Noah hasn't implemented this feature yet!") }}>SOLVE</button>
                 </div>
             </div>
 
@@ -48,12 +53,12 @@ export function ControlPanel({ onRotate }) {
                 <div style={{ marginBottom: 10, fontWeight: 'bold', textAlign: 'center' }}>Clockwise ↻</div>
                 <div style={{ display: 'flex', gap: 8 }}>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: 4, paddingLeft: 10 }}>
-                        <button className="button-rubik" onClick={() => handleRotate('RIGHT', -1)}>R</button>
-                        <button className="button-rubik" onClick={() => handleRotate('LEFT', 1)}>L</button>
-                        <button className="button-rubik" onClick={() => handleRotate('TOP', -1)}>U</button>
-                        <button className="button-rubik" onClick={() => handleRotate('BOTTOM', 1)}>D</button>
-                        <button className="button-rubik" onClick={() => handleRotate('FRONT', -1)}>F</button>
-                        <button className="button-rubik" onClick={() => handleRotate('BACK', 1)}>B</button>
+                        <button className="button-rubik" onClick={() => { play("rotate"); handleRotate('RIGHT', -1) }}>R</button>
+                        <button className="button-rubik" onClick={() => { play("rotate"); handleRotate('LEFT', 1) }}>L</button>
+                        <button className="button-rubik" onClick={() => { play("rotate"); handleRotate('TOP', -1) }}>U</button>
+                        <button className="button-rubik" onClick={() => { play("rotate"); handleRotate('BOTTOM', 1) }}>D</button>
+                        <button className="button-rubik" onClick={() => { play("rotate"); handleRotate('FRONT', -1) }}>F</button>
+                        <button className="button-rubik" onClick={() => { play("rotate"); handleRotate('BACK', 1) }}>B</button>
                     </div>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: 4, justifyContent: 'space-around', paddingLeft: 80 }}>
                         <div>R</div>
@@ -75,12 +80,12 @@ export function ControlPanel({ onRotate }) {
                 <div style={{ marginBottom: 10, fontWeight: 'bold', textAlign: 'center' }}>Counter Clockwise ↺</div>
                 <div style={{ display: 'flex', gap: 8 }}>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: 4, paddingLeft: 10 }}>
-                        <button className="button-rubik" onClick={() => handleRotate('RIGHT', 1)}>R'</button>
-                        <button className="button-rubik" onClick={() => handleRotate('LEFT', -1)}>L'</button>
-                        <button className="button-rubik" onClick={() => handleRotate('TOP', 1)}>U'</button>
-                        <button className="button-rubik" onClick={() => handleRotate('BOTTOM', -1)}>D'</button>
-                        <button className="button-rubik" onClick={() => handleRotate('FRONT', 1)}>F'</button>
-                        <button className="button-rubik" onClick={() => handleRotate('BACK', -1)}>B'</button>
+                        <button className="button-rubik" onClick={() => { play("rotate"); handleRotate('RIGHT', 1) }}>R'</button>
+                        <button className="button-rubik" onClick={() => { play("rotate"); handleRotate('LEFT', -1) }}>L'</button>
+                        <button className="button-rubik" onClick={() => { play("rotate"); handleRotate('TOP', 1) }}>U'</button>
+                        <button className="button-rubik" onClick={() => { play("rotate"); handleRotate('BOTTOM', -1) }}>D'</button>
+                        <button className="button-rubik" onClick={() => { play("rotate"); handleRotate('FRONT', 1) }}>F'</button>
+                        <button className="button-rubik" onClick={() => { play("rotate"); handleRotate('BACK', -1) }}>B'</button>
                     </div>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: 4, justifyContent: 'space-around', paddingLeft: 25 }}>
                         <div>Shift + R</div>

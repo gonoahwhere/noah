@@ -2,7 +2,7 @@
 import { create } from "zustand";
 
 // CUBE COLOURS
-export const useColoursList = create((set) => ({
+export const useColoursList = create((set, get) => ({
     colours: {
         RIGHT: "#FFA061",
         LEFT: "#FF0000",
@@ -12,7 +12,17 @@ export const useColoursList = create((set) => ({
         BACK: "#0000BB",
     },
 
-    setColour: (face, value) => set((state) => ({
-        colours: { ...state.colours, [face]: value }
-    })),
+    // ATTEMPTS TO SET CHOSEN COLOUR TO FACE
+    setColour: (face, value) => {
+        const { colours } = get()
+        const isDuplicate = Object.entries(colours).some(([key, colour]) => key !== face && colour === value)
+
+        // DOESN'T APPLY COLOUR IF DUPLICATE
+        if (isDuplicate) {
+            return false
+        }
+
+        set({ colours: { ...colours, [face]: value }})
+        return true
+    }
 }));

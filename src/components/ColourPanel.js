@@ -1,6 +1,9 @@
-// ColourPanel.jsx
+// IMPORTS
 import { useColoursList } from '../utils/Colours';
 import { useState, useEffect } from 'react';
+
+// FILES
+import { useSound } from "../SoundContext"
 
 // USE ICONS INSTEAD OF WORDS
 const faceIcons = {
@@ -14,11 +17,22 @@ const faceIcons = {
 
 export function ColourPanel() {
   const { colours, setColour } = useColoursList();
+  const { play } = useSound()
   const [inputs, setInputs] = useState({ ...colours});
+  const [noahAlertMsg, setNoahAlertMsg] = useState(null)
+  const [noahAlertClose, setNoahAlertClose] = useState(false)
 
   useEffect(() => {
     setInputs({ ...colours });
   },  [colours])
+
+  // REJECTION POPUP
+  const handleRejection = () => {
+    play("ohno")
+    setNoahAlertMsg("That colour is already used on another face!")
+    setInputs({ ...colours })
+  }
+
   return (
     <div
       style={{
@@ -65,7 +79,10 @@ export function ColourPanel() {
 
               // ONLY SETS IF VALID
               if (/^#[0-9A-Fa-f]{6}$/.test(value)) {
-                setColour(face, value)
+                const successColour = setColour(face, value)
+                if (!successColour) {
+                  handleRejection()
+                }
               }
             }}
             style={{ border: 'none', background: 'none', color: "#ccc", fontFamily: 'Rubik', width: 90 }}
@@ -77,13 +94,35 @@ export function ColourPanel() {
             value={inputs[face]}
             onChange={(e) => {
                 const hex = e.target.value;
-                setColour(face, e.target.value)
+                const successColour = setColour(face, hex)
+
+                if (!successColour) {
+                  handleRejection()
+                  return
+                }
+
                 setInputs(prev => ({ ...prev, [face]: hex }))
             }}
             style={{ border: "none", background: "none" }}
           />
         </div>
       ))}
+
+      {/* Custom Alert Messages */}
+      {noahAlertMsg && (
+      <div className={`noah-alert ${noahAlertClose ? "fade-out" : "fade-in"}`}>
+          <div className="noah-alert-msg">{noahAlertMsg}</div>
+          <button 
+              className="button-rubik" 
+              onClick={() => { 
+                  setNoahAlertClose(true); 
+                  setTimeout(() => { 
+                      setNoahAlertMsg(null); 
+                      setNoahAlertClose(false);
+                  }, 200); }}
+          >OK</button>
+      </div>
+      )}
     </div>
   );
 }
