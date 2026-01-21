@@ -1,0 +1,27 @@
+/* ===== FALLING CUBE ====== */
+.falling-container {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: -9999;
+}
+
+.falling-item {
+    position: absolute;
+    top: -100px;
+    animation: fall linear infinite;
+    background: transparent;
+    filter: grayscale(100%);
+}
+
+/* ===== FALLING CUBE ANIMATION ====== */
+@keyframes fall {
+    from {
+        transform: translateY(-100px) rotate(var(--start-rotation))
+    }
+
+    to {
+        transform: translateY(110vh) rotate(calc(var(--start-rotation) + 360deg))
+    }
+}

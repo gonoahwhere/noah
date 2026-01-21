@@ -1,13 +1,13 @@
-// IMPORTS
+/* ===== IMPORTS ===== */
 import { create } from "zustand";
 
-// CUBE COLOURS
+/* ===== CUBE COLOURS ===== */
 export const useColoursList = create((set, get) => ({
     colours: {
-        RIGHT: "#FFA061",
-        LEFT: "#FF0000",
-        TOP: "#FFFFFF",
-        BOTTOM: "#FFFF00",
+        RIGHT: "#FF0000",
+        LEFT: "#FFA061",
+        UP: "#FFFFFF",
+        DOWN: "#FFFF00",
         FRONT: "#00BB00",
         BACK: "#0000BB",
     },
