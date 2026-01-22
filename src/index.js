@@ -1,12 +1,12 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import App from "./App.js";
-import "./index.css";
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import './styles/main.css';
+import App from './App';
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
+const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <App />
-    <div className="cube-ribbon" data-ribbon="Noah's Cube" />
+    <div className="cube-ribbon" data-ribbon="NOAHS CUBE" />
   </React.StrictMode>
 );

@@ -1,0 +1,83 @@
+/* ===== SETTINGS ===== */
+.noah-settings {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 16px;
+    min-width: 500px;
+    border-radius: 12px;
+    background: #1e1e1e;
+    border: 1px solid #3e3e3e;
+    text-align: center;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+    z-index: 1000;
+}
+
+.noah-settings-group {
+    margin-bottom: 50px;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    align-items: center;
+}
+
+.noah-settings-group label {
+    font-weight: bold;
+    margin-bottom: 8px;
+    display: block;
+    text-align: center;
+}
+
+.noah-settings-group input {
+    font-family: 'Rubik', sans-serif;
+    border: none;
+    background: none;
+    color: #ccc;
+}
+
+.noah-settings-subgroup {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: flex-start;
+}
+
+.noah-settings-subgroup .button-rubik {
+    min-width: 60px;
+    padding: 6px 12px;
+    flex: none;
+}
+
+/* ===== SETTINGS ANIMATION ===== */
+.fade-in {
+    animation: settingsFadeIn 0.2s ease-out forwards;
+}
+
+.fade-out {
+    animation: settingsFadeOut 0.2s ease-in forwards;
+}
+
+@keyframes settingsFadeIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.96);
+    }
+  
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+@keyframes settingsFadeOut {
+    from {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+    to {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.96);
+    }
+}
