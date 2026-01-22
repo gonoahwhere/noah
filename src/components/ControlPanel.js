@@ -4,45 +4,11 @@ import { useState } from 'react'
 /* ===== FILES =====*/
 import { useSound } from '../SoundContext'
 
-/* ===== MOVES FOR SCRAMBLING ===== */
-const MOVES = [
-    { face: 'RIGHT', dir: -1 },
-    { face: 'RIGHT', dir: 1  },
-    { face: 'LEFT', dir: 1  },
-    { face: 'LEFT', dir: -1 },
-    { face: 'UP', dir: -1 },
-    { face: 'UP', dir: 1  },
-    { face: 'DOWN', dir: 1  },
-    { face: 'DOWN', dir: -1 },
-    { face: 'FRONT', dir: -1 },
-    { face: 'FRONT', dir: 1  },
-    { face: 'BACK', dir: 1  },
-    { face: 'BACK', dir: -1 },
-]
-
-const randomItem = arr => arr[Math.floor(Math.random() * arr.length)]
-
 /* ===== BUTTON CONTROLS ===== */
-export function ControlPanel({ onRotate, showAlert, openSettings }) {
+export function ControlPanel({ onRotate, showAlert, openSettings, onScramble, onSolve }) {
     const { play } = useSound()
 
-    const handleRotate = (face, dir) => {
-        if (onRotate) {
-            onRotate(face, dir)
-        }
-    }
-
-    // SCRAMBLE THE CUBE
-    const scrambleButtons = async (moves = 25) => {
-        const DELAY = 300
-
-        for (let i = 0; i < moves; i++) {
-            const move = randomItem(MOVES)
-            play("rotate")
-            onRotate(move.face, move.dir)
-            await new Promise(res => setTimeout(res, DELAY))
-        }
-    }
+    const handleRotate = (face, dir) => onRotate?.(face, dir)
 
     return (
         <div style={{ position: 'absolute', top: 120, left: 20, display: 'flex', gap: 12, flexDirection: 'column', width: 250, paddingBottom: 20, zIndex: 1000 }}>
@@ -52,8 +18,8 @@ export function ControlPanel({ onRotate, showAlert, openSettings }) {
                 <div style={{ display: 'flex', gap: 8 }}>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
                         <button className="button-rubik" onClick={() => { play("weee"); openSettings() }}>SETTINGS</button>
-                        <button className="button-rubik" onClick={() => { scrambleButtons(25) }}>SHUFFLE</button>
-                        <button className="button-rubik" onClick={() => { play("ohno"); showAlert("Noah hasn't implemented this feature yet.") }}>SOLVE</button>
+                        <button className="button-rubik" onClick={() => onScramble?.(25)}>SHUFFLE</button>
+                        <button className="button-rubik" onClick={() => onSolve?.()}>SOLVE</button>
                     </div>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: 4, justifyContent: 'space-around', paddingLeft: 30 }}>
                         <div>O</div>
