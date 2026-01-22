@@ -12,7 +12,7 @@ import IndividualCube from '../utils/IndividualCube'
 import { useColoursList } from "../utils/Colours";
 
 /* ===== FUNCTION ===== */
-function Cube({ rotationCommand, showAlert, openSettings }) {
+function Cube({ rotationCommand, showAlert, openSettings, cubeControls }) {
     const ref = useRef()
 
     // CUBE SIZE, COLOURS + OFFSET
@@ -59,7 +59,7 @@ function Cube({ rotationCommand, showAlert, openSettings }) {
                     )
                 )}
             </group>
-            <KeyControls cubeGroup={ref} rotationCommand={rotationCommand} showAlert={showAlert} openSettings={openSettings} />
+            <KeyControls cubeGroup={ref} rotationCommand={rotationCommand} showAlert={showAlert} openSettings={openSettings} registerControls={controls => { cubeControls.current = controls }} />
         </>
     )
 }
