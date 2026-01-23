@@ -2,7 +2,7 @@
 import { createContext, useContext } from 'react'
 
 /* ===== FILES ===== */
-import { useSounds } from './utils/Sounds'
+import { useSounds } from './utils/Sounds.js'
 
 /* ===== EXPORT FUNCTION ===== */
 const SoundContext = createContext(null)

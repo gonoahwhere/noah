@@ -7,9 +7,9 @@ import JEASINGS from 'jeasings'
 import { RoundedBoxGeometry } from 'three/examples/jsm/Addons.js'
 
 /* ===== FILES ===== */
-import KeyControls from './Keys'
-import IndividualCube from '../utils/IndividualCube'
-import { useColoursList } from "../utils/Colours";
+import KeyControls from './Keys.js'
+import IndividualCube from '../utils/IndividualCube.js'
+import { useColoursList } from "../utils/Colours.js";
 
 /* ===== FUNCTION ===== */
 function Cube({ rotationCommand, showAlert, openSettings, cubeControls }) {
@@ -18,7 +18,15 @@ function Cube({ rotationCommand, showAlert, openSettings, cubeControls }) {
     // CUBE SIZE, COLOURS + OFFSET
     const N = 3
     const offset = (N - 1) / 2
-    const colours = useColoursList((s) => s.colours)
+    const ORIGINAL_COLOURS = useColoursList((s) => s.colours)
+    const colours = {
+        RIGHT: ORIGINAL_COLOURS.RIGHT,
+        LEFT: ORIGINAL_COLOURS.LEFT,
+        UP: ORIGINAL_COLOURS.UP,
+        DOWN: ORIGINAL_COLOURS.DOWN,
+        FRONT: ORIGINAL_COLOURS.FRONT,
+        BACK: ORIGINAL_COLOURS.BACK,
+    }
 
     // ROUNDS THE INDIVIDUAL CUBES TO GIVE CLEAN EDGES
     const roundedBoxGeometry = useMemo(() => new RoundedBoxGeometry(1, 1, 1, 3, 0.1), []);

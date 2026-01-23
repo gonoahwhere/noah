@@ -2,8 +2,8 @@
 import { useState, useEffect } from 'react'
 
 /* ===== FILES ===== */
-import { useColoursList } from './utils/Colours';
-import { useSound } from './SoundContext'
+import { useColoursList } from './utils/Colours.js';
+import { useSound } from './SoundContext.js'
 
 /* ===== FACE ICONS ===== */
 const faceIcons = {
@@ -30,10 +30,29 @@ export function CustomAlert({ msg, closing, close }) {
 }
 
 /* ===== SETTINGS MENU ===== */
-export function OptionsMenu({ open, closing, close, cubeSize, setCubeSize, rotateSpeed, setRotateSpeed, soundEnabled, setSoundEnabled, animateEnabled, setAnimateEnabled, showAlert }) {
+export function OptionsMenu({ open, closing, close, cubeSize, setCubeSize, rotateSpeed, setRotateSpeed, soundEnabled, setSoundEnabled, showAlert }) {
     const { colours, setColour } = useColoursList()
     const [inputs, setInputs] = useState({ ...colours })
     const { play } = useSound()
+
+    useEffect(() => {
+        const VALID_FACES = [
+            "RIGHT",
+            "LEFT",
+            "UP",
+            "DOWN",
+            "FRONT",
+            "BACK"
+        ]
+
+        const safeInputs = {}
+        
+        for (const face of VALID_FACES) {
+            safeInputs[face] = colours[face] || "#FFFFFF"
+        }
+
+        setInputs(safeInputs)
+    }, [colours])
 
     if (!open) {
         return null
@@ -55,17 +74,14 @@ export function OptionsMenu({ open, closing, close, cubeSize, setCubeSize, rotat
 
                 <div className="noah-settings-group">
                     <label>ROTATION SPEED</label>
-                    <input type="number" min={1} max={10} value={rotateSpeed} onChange={(e) => setRotateSpeed(Math.min(10, Math.max(1, Number(e.target.value))))} />
+                    <label className="rotate-label">Only affects speed of whole cube rotations</label>
+                    <input type="number" min={1} max={10} value={rotateSpeed} onChange={(e) => setRotateSpeed(Math.min(10, Math.max(1, Number(e.target.value))))} style={{ textAlign: 'center' }} />
+
                 </div>
 
                 <div className="noah-settings-group">
                     <label>SOUNDS</label>
                     <input type="checkbox" checked={soundEnabled} onChange={(e) => setSoundEnabled(e.target.checked)} />
-                </div>
-
-                <div className="noah-settings-group">
-                    <label>FALLING CUBES</label>
-                    <input type="checkbox" checked={animateEnabled} onChange={(e) => setAnimateEnabled(e.target.checked)} />
                 </div>
 
                 <div className="noah-settings-group">
@@ -77,19 +93,16 @@ export function OptionsMenu({ open, closing, close, cubeSize, setCubeSize, rotat
                             <input 
                                 type="text"
                                 value={inputs[face]} 
-                                onChange={(e) => {
-                                    let value = e.target.value.toUpperCase()
-                                    value = value.replace(/[^0-9A-F#]/g, "")
+                                onChange={async (e) => {
+                                    let value = e.target.value.toUpperCase().replace(/[^0-9A-F#]/g, "")
 
-                                    if (!value.startsWith("#")) {
-                                        value = "#" + value
-                                    }
-
+                                    if (!value.startsWith("#")) value = "#" + value
                                     value = value.slice(0, 7)
+
                                     setInputs(prev => ({ ...prev, [face]: value }))
 
-                                    if (/^#[0-9A-Fa-f]{6}$/.test(value)) {
-                                        const success = setColour(face, value)
+                                    if (/^#[0-9A-F]{6}$/.test(value)) {
+                                        const success = await setColour(face, value)
                                         if (!success) {
                                             play("ohno")
                                             showAlert("That colour is already used on another face!")
@@ -104,10 +117,17 @@ export function OptionsMenu({ open, closing, close, cubeSize, setCubeSize, rotat
                             <input
                                 type="color" 
                                 value={inputs[face]}
-                                onChange={(e) => {
+                                onChange={async (e) => {
                                     const hex = e.target.value
-                                    setColour(face, e.target)
-                                    setInputs(prev => ({ ...prev, [face]: hex }))
+                                    const success = await setColour(face, hex)
+
+                                    if (success) {
+                                        setInputs(prev => ({ ...prev, [face]: hex }))
+                                    } else {
+                                        play("ohno")
+                                        showAlert("That colour is already used on another face!")
+                                        setInputs(prev => ({ ...prev, [face]: colours[face] }))
+                                    }
                                 }}
 
                                 style={{ border: 'none', background: 'none' }}

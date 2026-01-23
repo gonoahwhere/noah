@@ -1,0 +1,13 @@
+{
+  "colours": {
+    "RIGHT": "#FF0000",
+    "LEFT": "#FFA061",
+    "UP": "#FFFFFF",
+    "DOWN": "#FFFF00",
+    "FRONT": "#00BB00",
+    "BACK": "#0000BB"
+  },
+  "soundEnabled": true,
+  "rotateSpeed": 3,
+  "cubeSize": 3
+}

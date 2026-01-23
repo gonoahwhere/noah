@@ -49,6 +49,11 @@
     flex: none;
 }
 
+.rotate-label {
+    font-weight: normal;
+    font-size: 12px;
+}
+
 /* ===== SETTINGS ANIMATION ===== */
 .fade-in {
     animation: settingsFadeIn 0.2s ease-out forwards;

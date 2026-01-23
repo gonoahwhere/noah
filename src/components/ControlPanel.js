@@ -2,7 +2,7 @@
 import { useState } from 'react'
 
 /* ===== FILES =====*/
-import { useSound } from '../SoundContext'
+import { useSound } from '../SoundContext.js'
 
 /* ===== BUTTON CONTROLS ===== */
 export function ControlPanel({ onRotate, showAlert, openSettings, onScramble, onSolve }) {

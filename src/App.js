@@ -1,5 +1,5 @@
 /* ===== IMPORTS ===== */
-import { useRef, useState } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { Canvas, useThree, useFrame, extend } from '@react-three/fiber'
 import { TrackballControls } from 'three/addons/controls/TrackballControls.js';
 
@@ -9,10 +9,11 @@ import './styles/alerts.css'
 import './styles/settings.css'
 
 /* ===== FILES ===== */
-import Cube from './components/Cube'
-import { ControlPanel } from './components/ControlPanel'
-import { SoundProvider } from './SoundContext'
-import { CustomAlert, OptionsMenu } from './CustomFunctions';
+import Cube from './components/Cube.js'
+import { ControlPanel } from './components/ControlPanel.js'
+import { SoundProvider } from './SoundContext.js'
+import { CustomAlert, OptionsMenu } from './CustomFunctions.js';
+import { useColoursList } from './utils/Colours.js';
 
 /* ===== MOVEMENT ===== */
 extend({ TrackballControls });
@@ -26,6 +27,14 @@ function Controls() {
 
 /* ===== DISPLAY ===== */
 function App() {
+  // LOADS SAVED SETTINGS
+  const loadColours = useColoursList(s => s.loadColours)
+  const coloursLoaded = useColoursList(s => s.loaded)
+
+  useEffect(() => {
+    loadColours()
+  }, [loadColours])
+
   // TRACKS ROTATION
   const [rotationCommand, setRotationCommand] = useState(null)
   const cubeControls = useRef(null)
@@ -57,7 +66,6 @@ function App() {
   const [cubeSize, setCubeSize] = useState(3)
   const [rotateSpeed, setRotateSpeed] = useState(5)
   const [soundEnabled, setSoundEnabled] = useState(true)
-  const [animateEnabled, setAnimateEnabled] = useState(true)
 
   const closeOptions = () => {
     setOptionsClosing(true)
@@ -80,14 +88,19 @@ function App() {
           <Canvas style={{ width: '100%', height: '100%' }} camera={{ position: [7, 7, 7], fov: 60, near: 0.01, far: 100 }}>
             <ambientLight intensity={0.8} />
             <pointLight intensity={1} position={[10, 10, 10]} />
-            <Cube rotationCommand={rotationCommand} showAlert={showAlert} openSettings={() => setOptionsOpen(true)} cubeControls={cubeControls} />
+
+            {/* ONLY LOADS CUBE ONCE COLOURS HAVE LOADED FROM JSON */}
+            {coloursLoaded && (
+              <Cube rotationCommand={rotationCommand} showAlert={showAlert} openSettings={() => setOptionsOpen(true)} cubeControls={cubeControls} />              
+            )}
+            
             <Controls />
           </Canvas>
         </div>
 
         {/* CUSTOM FUNCTIONS */}
         <CustomAlert msg={noahAlertMsg} closing={noahAlertClose} close={closeAlert} />
-        <OptionsMenu open={optionsOpen} closing={optionsClosing} close={closeOptions} cubeSize={cubeSize} setCubeSize={setCubeSize} rotateSpeed={rotateSpeed} setRotateSpeed={setRotateSpeed} soundEnabled={soundEnabled} setSoundEnabled={setSoundEnabled} animateEnabled={animateEnabled} setAnimateEnabled={setAnimateEnabled} showAlert={showAlert} />
+        <OptionsMenu open={optionsOpen} closing={optionsClosing} close={closeOptions} cubeSize={cubeSize} setCubeSize={setCubeSize} rotateSpeed={rotateSpeed} setRotateSpeed={setRotateSpeed} soundEnabled={soundEnabled} setSoundEnabled={setSoundEnabled} showAlert={showAlert} />
 
       </div>
     </SoundProvider>

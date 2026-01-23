@@ -1,5 +1,5 @@
 /* ===== FILES =====*/
-import { FACES, INSIDE_COLOUR } from './Faces'
+import { FACES, INSIDE_COLOUR } from './Faces.js'
 
 /* ===== EXPORT FUNCTION =====*/
 function IndividualCube({ position, geometry, colours }) {

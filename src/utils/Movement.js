@@ -82,7 +82,8 @@ export function attachLayerToRotation(cubeGroup, rotationGroup, camera, face) {
         .forEach(function (c) { rotationGroup.attach(c) })
 
     // RETURNS THE AXIS AND DIRECTION SIGN
-    return { axis: worldAxis, sign: axisSign }
+    const layerSide = Math.sign(limit)
+    return { axis: worldAxis, sign: axisSign, layerSide }
 }
 
 // CALCULATES THE AXIS WITH THE LARGEST COMPONENT
@@ -110,10 +111,33 @@ export function rotateLayer(cubeGroup, rotationGroup, camera, face, multiplier) 
         resetRotationGroup(cubeGroup, rotationGroup)
         
         // ATTACHES INDIVIDUAL CUBES TO PIVOT FOR THE SELECTED LAYER
-        const result = attachLayerToRotation(cubeGroup, rotationGroup, camera, face)
-        const { axis, sign } = result
+        const { axis, sign, layerSide } = attachLayerToRotation(cubeGroup, rotationGroup, camera, face)
 
         // VISUALLY MOVES THE LAYER, ADJUSTING MULTIPLIER BY AXIS DIRECTION
-        animateCubeRotation(rotationGroup, axis, multiplier * sign)
+        const finalMultiplier = multiplier * sign
+        animateCubeRotation(rotationGroup, axis, finalMultiplier)
+        return { axis, multiplier: finalMultiplier, layerSide }
+    }
+    return null
+}
+
+// // ATTACH LAYER BASED ON ABSOLUTE AXIS, FOR SOLVING
+export function rotateLayerAbsolute(cubeGroup, rotationGroup, axis, layerSide, rotationDirection) {
+    if (!JEASINGS.getLength()) {
+        // RESETS ANY OF THE INDIVIDUAL CUBES ATTACHED TO PIVOT
+        resetRotationGroup(cubeGroup, rotationGroup)
+
+        // ATTACHES INDIVIDUAL CUBES TO PIVOT FOR THE SELECTED LAYER ON ABSOLUTE AXIS
+        const limit = 0.5
+        const selectPositive = layerSide > 0
+
+        cubeGroup.children
+            .slice()
+            .reverse()
+            .filter(c => selectPositive ? c.position[axis] > limit : c.position[axis] < -limit)
+            .forEach(c => rotationGroup.attach(c))
+
+        // VISUALLY MOVES THE LAYER
+        animateCubeRotation(rotationGroup, axis, rotationDirection)
     }
 }
